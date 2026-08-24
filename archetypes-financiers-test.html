@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kif'My Business — Test des Archétypes Financiers®</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --af-green:#95C11F;
+    --af-blue:#11AAE3;
+    --af-navy:#123859;
+    --af-white:#FFFFFF;
+    --af-mist:#F5F5F2;
+    --af-line: rgba(18,56,89,0.14);
+    --af-line-soft: rgba(18,56,89,0.08);
+    --af-alert:#D64550;
+    --af-gradient: linear-gradient(90deg, var(--af-green), var(--af-blue));
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0;
+    padding:0;
+    background:var(--af-white);
+    color:var(--af-navy);
+    font-family:'Roboto', Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.af-display{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+
+  .af-app{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- HEADER ---------- */
+
+  .af-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    padding:22px 28px;
+    border-bottom:1px solid var(--af-line-soft);
+  }
+
+  .af-brand{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:800;
+    font-size:1.05rem;
+    color:var(--af-navy);
+  }
+
+  .af-brand span{
+    background:var(--af-gradient);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .af-progress{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex:1;
+    max-width:340px;
+  }
+
+  .af-progress-track{
+    position:relative;
+    flex:1;
+    height:4px;
+    background:var(--af-line-soft);
+    border-radius:2px;
+    overflow:hidden;
+  }
+
+  .af-progress-fill{
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:0%;
+    background:var(--af-gradient);
+    transition:width 0.35s ease;
+  }
+
+  .af-progress-count{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:700;
+    font-size:0.85rem;
+    color:var(--af-navy);
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- MAIN LAYOUT ---------- */
+
+  main{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    padding:48px 24px 96px;
+  }
+
+  .af-screen{
+    width:100%;
+    max-width:620px;
+  }
+
+  /* ---------- CAPTURE SCREEN ---------- */
+
+  .af-intro-eyebrow{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:700;
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--af-blue);
+    margin-bottom:14px;
+  }
+
+  .af-intro h1{
+    font-size:2rem;
+    line-height:1.15;
+    margin-bottom:18px;
+  }
+
+  .af-intro p{
+    font-size:1.02rem;
+    line-height:1.65;
+    color:rgba(18,56,89,0.82);
+    margin:0 0 12px;
+  }
+
+  .af-intro-meta{
+    display:flex;
+    gap:20px;
+    margin:26px 0 36px;
+    padding:16px 0;
+    border-top:1px solid var(--af-line-soft);
+    border-bottom:1px solid var(--af-line-soft);
+  }
+
+  .af-meta-item{
+    font-size:0.88rem;
+    color:rgba(18,56,89,0.75);
+  }
+
+  .af-meta-item strong{
+    display:block;
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:800;
+    font-size:1.15rem;
+    color:var(--af-navy);
+  }
+
+  form.af-form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .af-field label{
+    display:block;
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:700;
+    font-size:0.85rem;
+    margin-bottom:7px;
+    color:var(--af-navy);
+  }
+
+  .af-field input[type="text"],
+  .af-field input[type="email"]{
+    width:100%;
+    padding:13px 15px;
+    border:1px solid var(--af-line);
+    border-radius:8px;
+    font-family:'Roboto', Arial, sans-serif;
+    font-size:1rem;
+    color:var(--af-navy);
+    background:var(--af-white);
+    transition:border-color 0.2s ease;
+  }
+
+  .af-field input:focus{
+    outline:none;
+    border-color:var(--af-blue);
+  }
+
+  .af-field-error{
+    display:none;
+    font-size:0.8rem;
+    color:var(--af-alert);
+    margin-top:6px;
+  }
+
+  .af-field.af-invalid input{
+    border-color:var(--af-alert);
+  }
+
+  .af-field.af-invalid .af-field-error{
+    display:block;
+  }
+
+  .af-consent{
+    display:flex;
+    align-items:flex-start;
+    gap:11px;
+    padding:16px;
+    background:var(--af-mist);
+    border-radius:8px;
+    margin-top:6px;
+  }
+
+  .af-consent input{
+    margin-top:3px;
+    width:17px;
+    height:17px;
+    accent-color:var(--af-blue);
+    flex-shrink:0;
+  }
+
+  .af-consent label{
+    font-size:0.88rem;
+    line-height:1.5;
+    color:rgba(18,56,89,0.85);
+  }
+
+  /* ---------- BUTTONS ---------- */
+
+  .af-btn{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    border:none;
+    border-radius:8px;
+    padding:15px 30px;
+    cursor:pointer;
+    transition:transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    display:inline-block;
+    text-decoration:none;
+    text-align:center;
+  }
+
+  .af-btn-primary{
+    background:var(--af-gradient);
+    color:var(--af-white);
+  }
+
+  .af-btn-primary:hover:not(:disabled){
+    transform:translateY(-1px);
+    box-shadow:0 6px 18px rgba(17,170,227,0.28);
+  }
+
+  .af-btn-primary:disabled{
+    opacity:0.38;
+    cursor:not-allowed;
+    transform:none;
+    box-shadow:none;
+  }
+
+  .af-btn-secondary{
+    background:transparent;
+    color:var(--af-navy);
+    border:1px solid var(--af-line);
+  }
+
+  .af-btn-secondary:hover{
+    border-color:var(--af-navy);
+  }
+
+  .af-form-submit{
+    margin-top:8px;
+  }
+
+  /* ---------- QUIZ SCREEN ---------- */
+
+  .af-quiz-head{
+    margin-bottom:8px;
+  }
+
+  .af-quiz-head h2{
+    font-size:1.3rem;
+    margin-bottom:6px;
+  }
+
+  .af-quiz-head p{
+    font-size:0.92rem;
+    color:rgba(18,56,89,0.68);
+    margin:0;
+  }
+
+  .af-error-banner{
+    display:none;
+    align-items:center;
+    gap:10px;
+    background:rgba(214,69,80,0.08);
+    border:1px solid rgba(214,69,80,0.3);
+    color:var(--af-alert);
+    border-radius:8px;
+    padding:13px 16px;
+    font-size:0.88rem;
+    margin:18px 0;
+  }
+
+  .af-error-banner.show{ display:flex; }
+
+  .af-question{
+    padding:26px 0;
+    border-bottom:1px solid var(--af-line-soft);
+  }
+
+  .af-question:first-of-type{
+    border-top:1px solid var(--af-line-soft);
+  }
+
+  .af-question-text{
+    font-size:1.02rem;
+    line-height:1.55;
+    color:var(--af-navy);
+    margin-bottom:16px;
+  }
+
+  .af-likert{
+    display:flex;
+    gap:8px;
+  }
+
+  .af-likert button{
+    flex:1;
+    min-height:64px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    border:1px solid var(--af-line);
+    background:var(--af-white);
+    border-radius:7px;
+    padding:8px 4px;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+
+  .af-likert-num{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:800;
+    font-size:1rem;
+    color:rgba(18,56,89,0.55);
+  }
+
+  .af-likert-label{
+    font-family:'Roboto', Arial, sans-serif;
+    font-weight:400;
+    font-size:0.72rem;
+    line-height:1.2;
+    text-align:center;
+    color:rgba(18,56,89,0.55);
+  }
+
+  .af-likert button:hover{
+    border-color:var(--af-blue);
+  }
+
+  .af-likert button:hover .af-likert-num,
+  .af-likert button:hover .af-likert-label{
+    color:var(--af-blue);
+  }
+
+  .af-likert button.selected{
+    background:var(--af-gradient);
+    border-color:transparent;
+  }
+
+  .af-likert button.selected .af-likert-num,
+  .af-likert button.selected .af-likert-label{
+    color:var(--af-white);
+  }
+
+  @media (max-width: 560px){
+    .af-likert{ flex-direction:column; gap:8px; }
+    .af-likert button{ flex-direction:row; justify-content:flex-start; min-height:48px; padding:10px 14px; gap:12px; }
+    .af-likert-label{ text-align:left; font-size:0.85rem; }
+  }
+
+  .af-quiz-nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:32px;
+  }
+
+  .af-quiz-nav-spacer{ flex:1; }
+
+  /* ---------- RESULTS SCREEN ---------- */
+
+  .af-results h1{
+    font-size:1.7rem;
+    margin-bottom:12px;
+  }
+
+  .af-results-intro{
+    font-size:1.02rem;
+    line-height:1.6;
+    color:rgba(18,56,89,0.82);
+    margin:0 0 30px;
+  }
+
+  .af-results-intro strong{
+    color:var(--af-navy);
+  }
+
+  .af-send-status{
+    margin-top:10px;
+    margin-bottom:30px;
+    font-size:0.85rem;
+    line-height:1.5;
+  }
+
+  .af-send-status-pending{ color:rgba(18,56,89,0.55); }
+  .af-send-status-success{ color:rgba(18,56,89,0.55); }
+  .af-send-status-error{ color:var(--af-alert); }
+  .af-send-status-info{ color:rgba(18,56,89,0.55); }
+
+  /* ---------- VIDÉO ARCHÉTYPE PRINCIPAL ---------- */
+
+  .af-featured{
+    margin-bottom:44px;
+  }
+
+  .af-featured-label{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:700;
+    font-size:0.78rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--af-blue);
+    margin-bottom:12px;
+  }
+
+  .af-video-link{
+    display:block;
+    position:relative;
+    border-radius:12px;
+    overflow:hidden;
+    text-decoration:none;
+    background:var(--af-navy);
+    line-height:0;
+  }
+
+  .af-video-thumb{
+    width:100%;
+    display:block;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    opacity:0.92;
+    transition:opacity 0.15s ease;
+  }
+
+  .af-video-link:hover .af-video-thumb{
+    opacity:1;
+  }
+
+  .af-video-play{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    background:rgba(18,56,89,0.78);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+
+  .af-video-link:hover .af-video-play{
+    transform:translate(-50%,-50%) scale(1.06);
+    background:var(--af-navy);
+  }
+
+  .af-featured-footer{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:14px;
+  }
+
+  .af-featured-name{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:800;
+    font-size:1.35rem;
+    color:var(--af-navy);
+  }
+
+  .af-featured-score{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    color:rgba(18,56,89,0.6);
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+
+  /* ---------- AUTRES ARCHÉTYPES ---------- */
+
+  .af-others-label{
+    font-size:0.92rem;
+    color:rgba(18,56,89,0.68);
+    margin-bottom:10px;
+  }
+
+  .af-others-list{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .af-others-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 4px;
+    border-bottom:1px solid var(--af-line-soft);
+  }
+
+  .af-others-item:first-child{
+    border-top:1px solid var(--af-line-soft);
+  }
+
+  .af-others-rank{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:800;
+    font-size:0.8rem;
+    color:rgba(18,56,89,0.38);
+    width:22px;
+    flex-shrink:0;
+  }
+
+  .af-others-name{
+    flex:1;
+    font-size:0.92rem;
+    color:var(--af-navy);
+    font-weight:500;
+  }
+
+  .af-others-score{
+    font-family:'Mulish', Arial, sans-serif;
+    font-weight:700;
+    font-size:0.85rem;
+    color:rgba(18,56,89,0.65);
+    font-variant-numeric:tabular-nums;
+  }
+
+  @media (max-width: 560px){
+    .af-header{ padding:16px 18px; flex-wrap:wrap; }
+    .af-progress{ order:3; max-width:none; width:100%; }
+    main{ padding:32px 16px 80px; }
+    .af-intro h1{ font-size:1.6rem; }
+  }
+</style>
+</head>
+<body>
+<div class="af-app">
+  <header class="af-header">
+    <div class="af-brand">Archétypes<span> Financiers</span></div>
+    <div class="af-progress" id="af-progress" hidden>
+      <div class="af-progress-track"><div class="af-progress-fill" id="af-progress-fill"></div></div>
+      <span class="af-progress-count" id="af-progress-count">0 / 64</span>
+    </div>
+  </header>
+  <main id="af-main"></main>
+</div>
+
+<script>
+(function(){
+
+  // Empêche le navigateur de restaurer automatiquement la position
+  // de scroll d'un chargement précédent de cette même URL.
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+  window.scrollTo(0, 0);
+
+  // ============================================================
+  // CONFIGURATION
+  // ============================================================
+
+  var TEST_VERSION = "2026.1";
+
+  // À compléter une fois l'Apps Script des Archétypes déployé (URL du Web App).
+  // Tant que ce champ est vide, la page calcule et journalise le payload
+  // dans la console au lieu d'appeler le serveur.
+  var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymhMAwJzdjz0cZ5anwaQms_EjSb3exmf32dVK3M4F7KumsyBspFjTOFPB3giv055hG/exec";
+
+  var QUESTIONS_PER_PAGE = 8;
+
+  // ============================================================
+  // LES 64 AFFIRMATIONS — source : Archétypes_Financiers_questionnaire.xlsx
+  // Ne pas reformuler le texte, ne pas modifier les ID.
+  // Noms d'archétypes au féminin (orthographe officielle Chenille Papillon) :
+  // Accumulatrice, Alchimiste, Célébrité, Connectrice, Dirigeante,
+  // Nourricière, Rebelle, Romantique.
+  // ============================================================
+
+  var QUESTIONS = [
+    { id:1, cat:"Nourricière", text:"Je suis une personne généreuse, je donne ou je prête souvent de l'argent." },
+    { id:2, cat:"Rebelle", text:"J'aime peser le pour et le contre avant de prendre un risque financier." },
+    { id:3, cat:"Nourricière", text:"Je viens souvent en aide aux autres, financièrement ou dans d'autres domaines." },
+    { id:4, cat:"Rebelle", text:"Je suis prête à prendre un risque financier pour un gain potentiellement plus important." },
+    { id:5, cat:"Nourricière", text:"Malgré tous mes efforts, il se passe souvent quelque chose qui vient compliquer ma vie financière." },
+    { id:6, cat:"Rebelle", text:"Secrètement, je me sens plus clairvoyante, voire supérieure aux autres, en ce qui concerne l'argent." },
+    { id:7, cat:"Nourricière", text:"Je me retrouve à devoir attendre avant d'être payée à cause des besoins ou des raisons de quelqu'un d'autre." },
+    { id:8, cat:"Rebelle", text:"J'aime prendre le pouvoir ou le contrôle grâce à l'argent." },
+    { id:9, cat:"Alchimiste", text:"J'adore attirer l'argent de manière inhabituelle, voire magique." },
+    { id:10, cat:"Célébrité", text:"J'adore dépenser de l'argent pour améliorer mon image ou accroître ma visibilité." },
+    { id:11, cat:"Alchimiste", text:"Gagner de l'argent est moins important pour moi que créer un mouvement, un impact ou contribuer à un changement social." },
+    { id:12, cat:"Célébrité", text:"Il est important pour moi d'avoir le meilleur, d'être la première : voyager en première classe, accéder aux places VIP, acheter les derniers gadgets…" },
+    { id:13, cat:"Alchimiste", text:"Je vis une relation d'amour/haine avec l'argent." },
+    { id:14, cat:"Célébrité", text:"Je projette une image de richesse et de succès qui, souvent, ne reflète pas le solde de mon compte bancaire." },
+    { id:15, cat:"Alchimiste", text:"Je pense que se focaliser à outrance sur l'argent est cupide et peu spirituel." },
+    { id:16, cat:"Célébrité", text:"Il est plus facile pour moi de dépenser de l'argent en bijoux, restaurants ou voyages que d'épargner." },
+    { id:17, cat:"Connectrice", text:"C'est facile pour moi de ne pas penser à l'argent." },
+    { id:18, cat:"Accumulatrice", text:"J'adore épargner." },
+    { id:19, cat:"Connectrice", text:"Je me retrouve souvent dépendante financièrement d'autrui." },
+    { id:20, cat:"Accumulatrice", text:"Je trouve difficile, voire pénible, de dépenser de l'argent." },
+    { id:21, cat:"Connectrice", text:"J'évite souvent de faire face aux difficultés financières, elles finiront bien par se résoudre d'elles-mêmes." },
+    { id:22, cat:"Accumulatrice", text:"Je m'assure toujours de vivre en dessous de mes moyens." },
+    { id:23, cat:"Connectrice", text:"Je préfère largement que quelqu'un d'autre s'occupe de mes finances à ma place." },
+    { id:24, cat:"Accumulatrice", text:"Je trouve difficile de faire confiance quand il s'agit d'investir mon argent." },
+    { id:25, cat:"Romantique", text:"J'adore dépenser régulièrement de l'argent pour des objets, parce que je pense que je les mérite." },
+    { id:26, cat:"Dirigeante", text:"Je crois qu'il n'y a jamais assez d'argent et je continue à créer des moyens d'en gagner plus." },
+    { id:27, cat:"Romantique", text:"Je ne vois pas l'intérêt d'épargner, puisqu'il faut profiter de la vie dès maintenant." },
+    { id:28, cat:"Dirigeante", text:"J'hésite à compliquer ou à diversifier mes placements." },
+    { id:29, cat:"Romantique", text:"L'argent en soi ne me semble pas si important." },
+    { id:30, cat:"Dirigeante", text:"Je renonce à dépenser de l'argent maintenant, afin de l'investir dans mon avenir." },
+    { id:31, cat:"Romantique", text:"J'adore vivre des expériences luxueuses ou posséder de nombreux objets." },
+    { id:32, cat:"Dirigeante", text:"Je suis très ambitieuse et je considère l'argent comme une mesure de mon succès." },
+    { id:33, cat:"Nourricière", text:"Rendre service est plus motivant que posséder plus d'argent." },
+    { id:34, cat:"Rebelle", text:"À l'extrême, les risques financiers que je prends peuvent mettre ma situation financière en péril." },
+    { id:35, cat:"Nourricière", text:"Je peux éprouver du ressentiment si je ne gagne pas plus pour tout ce que je fais." },
+    { id:36, cat:"Rebelle", text:"Je suis à l'aise avec les situations financières complexes." },
+    { id:37, cat:"Nourricière", text:"Je consacre du temps à quelqu'un qui en a besoin, même si je ne suis pas rémunérée pour cela." },
+    { id:38, cat:"Rebelle", text:"M'enrichir financièrement est un jeu auquel je joue pour gagner." },
+    { id:39, cat:"Nourricière", text:"À l'extrême, je donne au point de m'endetter ou de mettre en péril ma situation financière." },
+    { id:40, cat:"Rebelle", text:"Mes décisions financières peuvent être considérées comme risquées par les autres." },
+    { id:41, cat:"Alchimiste", text:"Je pense que les gens aisés financièrement bénéficient d'avantages injustes." },
+    { id:42, cat:"Célébrité", text:"À l'extrême, je m'endette et je dépense sans compter afin d'attirer l'attention et la reconnaissance des autres." },
+    { id:43, cat:"Alchimiste", text:"Je me méfie des gens qui se focalisent trop sur l'argent." },
+    { id:44, cat:"Célébrité", text:"Je suis à l'aise avec la gestion financière quotidienne même si je suis endettée ou si je trouve difficile d'épargner ou d'investir mon argent." },
+    { id:45, cat:"Alchimiste", text:"J'investis mon argent uniquement dans des sociétés ou des gens dont les valeurs sont similaires aux miennes." },
+    { id:46, cat:"Célébrité", text:"J'adore me démarquer des autres et j'utilise mes achats pour ce faire." },
+    { id:47, cat:"Alchimiste", text:"À l'extrême, je suis soutenue financièrement par quelqu'un ou quelque chose (entreprise, conjoint, parent, carte de crédit) et pourtant je ressens de la rancœur ou perçois la situation comme injuste." },
+    { id:48, cat:"Célébrité", text:"Être reconnue comme donatrice généreuse à des œuvres caritatives ou des causes sociales est important pour moi." },
+    { id:49, cat:"Connectrice", text:"J'aimerais ne pas devoir penser à l'argent ni m'en occuper." },
+    { id:50, cat:"Accumulatrice", text:"À l'extrême, ma crainte d'investir ou de dépenser de l'argent limite mes opportunités." },
+    { id:51, cat:"Connectrice", text:"Je suis persuadée que, d'une manière ou d'une autre, les choses s'arrangeront toujours au point de vue financier." },
+    { id:52, cat:"Accumulatrice", text:"J'adore faire des achats en solde, en liquidation ou de seconde main car je sais que je fais une meilleure affaire." },
+    { id:53, cat:"Connectrice", text:"Je ne ressens pas une forte connexion avec l'argent." },
+    { id:54, cat:"Accumulatrice", text:"Je me sens protégée et en sécurité quand j'épargne beaucoup d'argent." },
+    { id:55, cat:"Connectrice", text:"À l'extrême, je me sens dépassée voire démunie vis-à-vis de l'argent et j'aimerais que le besoin d'argent disparaisse." },
+    { id:56, cat:"Accumulatrice", text:"Je ressens une forte connexion émotionnelle avec l'argent." },
+    { id:57, cat:"Romantique", text:"Je souhaite vivre ma vie de rêve, peu importe le coût qu'elle peut avoir." },
+    { id:58, cat:"Dirigeante", text:"À l'extrême, je ne suis jamais satisfaite de l'argent que je possède et je m'efforce d'en gagner toujours plus." },
+    { id:59, cat:"Romantique", text:"L'argent doit être dépensé ici et maintenant puisqu'il ne peut être emporté dans l'au-delà." },
+    { id:60, cat:"Dirigeante", text:"Je n'hésite pas à prendre des décisions en matière d'argent et de gestion financière." },
+    { id:61, cat:"Romantique", text:"Mes achats me permettent de me sentir bien dans ma peau." },
+    { id:62, cat:"Dirigeante", text:"Je crois que je serai plus heureuse quand j'aurai plus d'argent (même si j'en ai déjà plus qu'auparavant)." },
+    { id:63, cat:"Romantique", text:"À l'extrême, je dépense mon argent de manière impulsive." },
+    { id:64, cat:"Dirigeante", text:"J'ai peur de perdre le contrôle ou mon pouvoir sur mon argent." }
+  ];
+
+  var LIKERT_OPTIONS = [1, 2, 3, 4, 5];
+  var LIKERT_LABELS = {
+    1: "Pas du tout d'accord",
+    2: "Pas d'accord",
+    3: "Neutre",
+    4: "D'accord",
+    5: "Tout à fait d'accord"
+  };
+
+  // ============================================================
+  // VIDÉOS PAR ARCHÉTYPE — YouTube ID uniquement
+  // ============================================================
+
+  var ARCHETYPE_VIDEOS = {
+    "Accumulatrice": "UGmxNq2SAss",
+    "Alchimiste": "jtbC3xnNavU",
+    "Célébrité": "MfFC4qP-nrs",
+    "Connectrice": "d3LtUgU0E-I",
+    "Dirigeante": "RaezyZL9kUc",
+    "Nourricière": "jWKGyx0pHXc",
+    "Rebelle": "qD6DlVBbpGg",
+    "Romantique": "5wF5HqbTitA"
+  };
+
+  // ============================================================
+  // ÉTAT
+  // ============================================================
+
+  var state = {
+    screen: "capture",       // capture | quiz | results
+    page: 0,
+    answers: {},             // { questionId: value }
+    participant: { prenom:"", email:"", pays:"" },
+    order: shuffle(QUESTIONS.slice()),
+    results: null,
+    submitting: false,
+    debugMode: false
+  };
+
+  var pages = chunk(state.order, QUESTIONS_PER_PAGE);
+  var totalPages = pages.length;
+
+  // ============================================================
+  // MODE DEBUG — usage interne uniquement. ?debug=results affiche
+  // directement l'écran de résultats avec des données fictives,
+  // sans passer par la capture ni les 64 questions, et SANS AUCUN
+  // appel réseau.
+  // ============================================================
+
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("debug") === "results"){
+    state.debugMode = true;
+    state.participant = { prenom: "Prénom Test", email: "debug@chenillepapillon.be", pays: "Belgique" };
+    state.results = {
+      scores: {
+        "Accumulatrice": 30, "Alchimiste": 24, "Célébrité": 18, "Connectrice": 20,
+        "Dirigeante": 34, "Nourricière": 28, "Rebelle": 22, "Romantique": 26
+      },
+      ranking: [
+        { name: "Dirigeante", score: 34 },
+        { name: "Accumulatrice", score: 30 },
+        { name: "Nourricière", score: 28 },
+        { name: "Romantique", score: 26 },
+        { name: "Alchimiste", score: 24 },
+        { name: "Rebelle", score: 22 },
+        { name: "Connectrice", score: 20 },
+        { name: "Célébrité", score: 18 }
+      ],
+      principal: { name: "Dirigeante", score: 34 }
+    };
+    state.screen = "results";
+  }
+
+  // ============================================================
+  // UTILITAIRES
+  // ============================================================
+
+  function scrollToTopEverywhere(){
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    try {
+      window.parent.postMessage({ source: "archetypes-financiers", type: "scrollTop" }, "*");
+    } catch (e) { /* pas d'iframe parente, ou origine bloquée : sans effet */ }
+  }
+
+  function notifyParentResize(){
+    try {
+      window.parent.postMessage({
+        source: "archetypes-financiers",
+        type: "resize",
+        height: document.documentElement.scrollHeight
+      }, "*");
+    } catch (e) { /* pas d'iframe parente : sans effet */ }
+  }
+
+  function shuffle(arr){
+    for (var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  function chunk(arr, size){
+    var out = [];
+    for (var i = 0; i < arr.length; i += size){
+      out.push(arr.slice(i, i + size));
+    }
+    return out;
+  }
+
+  function answeredCount(){
+    return Object.keys(state.answers).length;
+  }
+
+  function isValidEmail(value){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function el(tag, attrs, children){
+    var node = document.createElement(tag);
+    attrs = attrs || {};
+    for (var key in attrs){
+      if (key === "class") node.className = attrs[key];
+      else if (key === "html") node.innerHTML = attrs[key];
+      else node.setAttribute(key, attrs[key]);
+    }
+    (children || []).forEach(function(child){
+      if (child) node.appendChild(child);
+    });
+    return node;
+  }
+
+  // ============================================================
+  // PROGRESSION (header)
+  // ============================================================
+
+  function updateProgressBar(){
+    var progressWrap = document.getElementById("af-progress");
+    var fill = document.getElementById("af-progress-fill");
+    var count = document.getElementById("af-progress-count");
+
+    if (state.screen !== "quiz"){
+      progressWrap.hidden = true;
+      return;
+    }
+    progressWrap.hidden = false;
+    var answered = answeredCount();
+    var pct = (answered / QUESTIONS.length) * 100;
+    fill.style.width = pct + "%";
+    count.textContent = answered + " / " + QUESTIONS.length + " réponses";
+  }
+
+  // ============================================================
+  // ÉCRAN 1 — CAPTURE
+  // ============================================================
+
+  function renderCapture(){
+    var main = document.getElementById("af-main");
+    main.innerHTML = "";
+
+    var screen = el("div", { class: "af-screen af-intro" });
+
+    screen.appendChild(el("div", { class: "af-intro-eyebrow" }, [document.createTextNode("Test gratuit — 15 à 20 minutes")]));
+    screen.appendChild(el("h1", {}, [document.createTextNode("Découvrez votre Archétype Financier principal")]));
+
+    var p1 = el("p", {}, [document.createTextNode("Il n'y a ni bonne ni mauvaise réponse. Répondez spontanément, en fonction de ce que vous ressentez le plus souvent dans votre relation à l'argent.")]);
+    var p2 = el("p", {}, [document.createTextNode("Vos résultats vous seront envoyés par email, avec une vidéo pour mieux comprendre votre archétype principal.")]);
+    screen.appendChild(p1);
+    screen.appendChild(p2);
+
+    var meta = el("div", { class: "af-intro-meta" }, [
+      el("div", { class: "af-meta-item" }, [el("strong", {}, [document.createTextNode("64")]), document.createTextNode("affirmations")]),
+      el("div", { class: "af-meta-item" }, [el("strong", {}, [document.createTextNode("8")]), document.createTextNode("Archétypes Financiers")]),
+      el("div", { class: "af-meta-item" }, [el("strong", {}, [document.createTextNode("15-20")]), document.createTextNode("minutes")])
+    ]);
+    screen.appendChild(meta);
+
+    var form = el("form", { class: "af-form" });
+
+    var fPrenom = buildField("text", "prenom", "Prénom", "Votre prénom");
+    var fEmail = buildField("email", "email", "Email", "vous@exemple.com");
+    var fPays = buildField("text", "pays", "Pays", "Votre pays");
+
+    form.appendChild(fPrenom.wrap);
+    form.appendChild(fEmail.wrap);
+    form.appendChild(fPays.wrap);
+
+    var consentWrap = el("div", { class: "af-consent" });
+    var consentInput = el("input", { type: "checkbox", id: "af-consent-input" });
+    var consentLabel = el("label", { for: "af-consent-input" }, [
+      document.createTextNode("J'accepte de recevoir des emails de Chenille Papillon, dont les résultats de ce test.")
+    ]);
+    consentWrap.appendChild(consentInput);
+    consentWrap.appendChild(consentLabel);
+    form.appendChild(consentWrap);
+
+    var submitBtn = el("button", { type: "submit", class: "af-btn af-btn-primary af-form-submit" }, [document.createTextNode("Commencer le test →")]);
+    form.appendChild(submitBtn);
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      var prenomVal = fPrenom.input.value.trim();
+      var emailVal = fEmail.input.value.trim();
+      var paysVal = fPays.input.value.trim();
+      var consentVal = consentInput.checked;
+
+      var valid = true;
+
+      if (prenomVal.length < 2){ setInvalid(fPrenom, "Merci d'indiquer votre prénom."); valid = false; }
+      else setValid(fPrenom);
+
+      if (!isValidEmail(emailVal)){ setInvalid(fEmail, "Cet email ne semble pas valide."); valid = false; }
+      else setValid(fEmail);
+
+      if (paysVal.length < 2){ setInvalid(fPays, "Merci d'indiquer votre pays."); valid = false; }
+      else setValid(fPays);
+
+      if (!consentVal){
+        valid = false;
+        consentWrap.style.outline = "1px solid #D64550";
+      } else {
+        consentWrap.style.outline = "none";
+      }
+
+      if (!valid) return;
+
+      state.participant = { prenom: prenomVal, email: emailVal, pays: paysVal, consent: true };
+      state.screen = "quiz";
+      state.page = 0;
+      render();
+      scrollToTopEverywhere();
+    });
+
+    screen.appendChild(form);
+    main.appendChild(screen);
+  }
+
+  function buildField(type, name, labelText, placeholder){
+    var wrap = el("div", { class: "af-field" });
+    var label = el("label", { for: "af-field-" + name }, [document.createTextNode(labelText)]);
+    var input = el("input", { type: type, id: "af-field-" + name, name: name, placeholder: placeholder, autocomplete: (type === "email" ? "email" : "off") });
+    var error = el("div", { class: "af-field-error" }, [document.createTextNode("")]);
+    wrap.appendChild(label);
+    wrap.appendChild(input);
+    wrap.appendChild(error);
+    return { wrap: wrap, input: input, error: error };
+  }
+
+  function setInvalid(field, message){
+    field.wrap.classList.add("af-invalid");
+    field.error.textContent = message;
+  }
+
+  function setValid(field){
+    field.wrap.classList.remove("af-invalid");
+    field.error.textContent = "";
+  }
+
+  // ============================================================
+  // ÉCRAN 2 — QUIZ
+  // ============================================================
+
+  function renderQuiz(){
+    var main = document.getElementById("af-main");
+    main.innerHTML = "";
+
+    var screen = el("div", { class: "af-screen" });
+
+    var head = el("div", { class: "af-quiz-head" }, [
+      el("h2", {}, [document.createTextNode("Vos affirmations")]),
+      el("p", {}, [document.createTextNode("Cochez la réponse qui correspond le plus à ce que vous ressentez, sans trop réfléchir.")])
+    ]);
+    screen.appendChild(head);
+
+    var errorBanner = el("div", { class: "af-error-banner", id: "af-error-banner" }, [
+      document.createTextNode("Merci de répondre aux " + QUESTIONS_PER_PAGE + " affirmations de cette page avant de continuer.")
+    ]);
+    screen.appendChild(errorBanner);
+
+    var currentPageQuestions = pages[state.page];
+
+    currentPageQuestions.forEach(function(question){
+      var qBlock = el("div", { class: "af-question" });
+      qBlock.appendChild(el("div", { class: "af-question-text" }, [document.createTextNode(question.text)]));
+
+      var likert = el("div", { class: "af-likert" });
+      LIKERT_OPTIONS.forEach(function(value){
+        var btn = el("button", { type: "button" }, [
+          el("span", { class: "af-likert-num" }, [document.createTextNode(String(value))]),
+          el("span", { class: "af-likert-label" }, [document.createTextNode(LIKERT_LABELS[value])])
+        ]);
+        if (state.answers[question.id] === value) btn.classList.add("selected");
+        btn.addEventListener("click", function(){
+          state.answers[question.id] = value;
+          document.getElementById("af-error-banner").classList.remove("show");
+          renderQuiz();
+          updateProgressBar();
+        });
+        likert.appendChild(btn);
+      });
+
+      qBlock.appendChild(likert);
+      screen.appendChild(qBlock);
+    });
+
+    var nav = el("div", { class: "af-quiz-nav" });
+
+    if (state.page > 0){
+      var backBtn = el("button", { type: "button", class: "af-btn af-btn-secondary" }, [document.createTextNode("← Précédent")]);
+      backBtn.addEventListener("click", function(){
+        state.page -= 1;
+        render();
+        scrollToTopEverywhere();
+      });
+      nav.appendChild(backBtn);
+    } else {
+      nav.appendChild(el("div", {}, []));
+    }
+
+    nav.appendChild(el("div", { class: "af-quiz-nav-spacer" }));
+
+    var isLastPage = state.page === totalPages - 1;
+    var nextBtn = el("button", { type: "button", class: "af-btn af-btn-primary" }, [
+      document.createTextNode(isLastPage ? "Voir mes résultats →" : "Page suivante →")
+    ]);
+    nextBtn.addEventListener("click", function(){
+      var pageComplete = currentPageQuestions.every(function(q){ return state.answers[q.id] !== undefined; });
+      if (!pageComplete){
+        document.getElementById("af-error-banner").classList.add("show");
+        scrollToTopEverywhere();
+        return;
+      }
+
+      if (isLastPage){
+        var allComplete = state.order.every(function(q){ return state.answers[q.id] !== undefined; });
+        if (!allComplete){
+          document.getElementById("af-error-banner").classList.add("show");
+          scrollToTopEverywhere();
+          return;
+        }
+        submitTest();
+      } else {
+        state.page += 1;
+        render();
+        scrollToTopEverywhere();
+      }
+    });
+    nav.appendChild(nextBtn);
+
+    screen.appendChild(nav);
+    main.appendChild(screen);
+  }
+
+  // ============================================================
+  // SCORING
+  // ============================================================
+
+  function computeResults(){
+    var scores = {
+      "Accumulatrice": 0, "Alchimiste": 0, "Célébrité": 0, "Connectrice": 0,
+      "Dirigeante": 0, "Nourricière": 0, "Rebelle": 0, "Romantique": 0
+    };
+
+    QUESTIONS.forEach(function(q){
+      var answer = state.answers[q.id];
+      scores[q.cat] += answer;
+    });
+
+    var ranking = Object.keys(scores)
+      .map(function(name){ return { name: name, score: scores[name] }; })
+      .sort(function(a, b){
+        if (b.score !== a.score) return b.score - a.score;
+        return a.name.localeCompare(b.name);
+      });
+
+    return {
+      scores: scores,
+      ranking: ranking,
+      principal: ranking[0]
+    };
+  }
+
+  // ============================================================
+  // SOUMISSION
+  // ============================================================
+
+  function submitTest(){
+    if (state.submitting) return;
+    state.submitting = true;
+
+    var results = computeResults();
+    state.results = results;
+
+    // Les résultats calculés sont affichés tout de suite : l'envoi
+    // au serveur se fait en parallèle et ne conditionne jamais leur
+    // affichage.
+    state.screen = "results";
+    render();
+    scrollToTopEverywhere();
+
+    sendResultsToBackend(results);
+  }
+
+  function sendResultsToBackend(results){
+    // Volontairement minimal : ni les 64 réponses individuelles ni
+    // les affirmations ne sont transmises au backend (RGPD).
+    var payload = {
+      testVersion: TEST_VERSION,
+      participant: state.participant,
+      scores: results.scores,
+      ranking: results.ranking,
+      principal: results.principal
+    };
+
+    if (!APPS_SCRIPT_URL){
+      console.log("[Archétypes Financiers] APPS_SCRIPT_URL non configurée. Payload calculé :", payload);
+      state.submitting = false;
+      setSendStatus("info", "Apps Script non connecté pour l'instant : résultats journalisés dans la console.");
+      return;
+    }
+
+    setSendStatus("pending", "Envoi de vos résultats par email en cours…");
+
+    fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    })
+      .then(function(response){
+        if (!response.ok) throw new Error("Réponse serveur non OK");
+        return response.json();
+      })
+      .then(function(data){
+        state.submitting = false;
+        if (data && data.ok === false) throw new Error(data.error || "Erreur serveur");
+        setSendStatus("success", "Vos résultats vous ont aussi été envoyés par email.");
+      })
+      .catch(function(err){
+        console.error("[Archétypes Financiers] Échec de l'envoi :", err);
+        state.submitting = false;
+        setSendStatus("error", "L'envoi automatique a rencontré un problème, mais vos résultats restent affichés ci-dessus.");
+      });
+  }
+
+  function setSendStatus(type, text){
+    var statusEl = document.getElementById("af-send-status");
+    if (!statusEl) return;
+    statusEl.className = "af-send-status af-send-status-" + type;
+    statusEl.textContent = text;
+  }
+
+  // ============================================================
+  // ÉCRAN 3 — RÉSULTATS
+  // ============================================================
+
+  function renderResults(){
+    var main = document.getElementById("af-main");
+    main.innerHTML = "";
+
+    var results = state.results;
+    var screen = el("div", { class: "af-screen af-results" });
+
+    screen.appendChild(el("div", { class: "af-intro-eyebrow" }, [document.createTextNode("Vos résultats")]));
+    screen.appendChild(el("h1", {}, [document.createTextNode("Merci, " + state.participant.prenom + " !")]));
+    screen.appendChild(el("p", { class: "af-results-intro" }, [
+      document.createTextNode("Votre Archétype Financier principal est "),
+      el("strong", {}, [document.createTextNode(results.principal.name)]),
+      document.createTextNode(".")
+    ]));
+
+    var statusEl = state.debugMode
+      ? el("div", { class: "af-send-status af-send-status-info", id: "af-send-status" }, [
+          document.createTextNode("Mode debug : données fictives, aucun envoi n'a été effectué.")
+        ])
+      : el("div", { class: "af-send-status af-send-status-pending", id: "af-send-status" }, [
+          document.createTextNode("Envoi de vos résultats par email en cours…")
+        ]);
+    screen.appendChild(statusEl);
+
+    // ---------- Vidéo de l'archétype principal ----------
+
+    var featured = el("div", { class: "af-featured" });
+    featured.appendChild(el("div", { class: "af-featured-label" }, [document.createTextNode("Votre archétype principal")]));
+
+    var videoId = ARCHETYPE_VIDEOS[results.principal.name];
+    if (videoId){
+      var thumbUrl = "https://img.youtube.com/vi/" + videoId + "/hqdefault.jpg";
+      var videoLink = el("a", { class: "af-video-link", href: "https://youtu.be/" + videoId, target: "_blank", rel: "noopener" });
+      var thumbImg = el("img", { class: "af-video-thumb", src: thumbUrl, alt: "Découvrir l'archétype " + results.principal.name });
+      var playBtn = el("span", { class: "af-video-play", html: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7L8 5z" fill="#FFFFFF"/></svg>' });
+      videoLink.appendChild(thumbImg);
+      videoLink.appendChild(playBtn);
+      featured.appendChild(videoLink);
+    }
+
+    featured.appendChild(el("div", { class: "af-featured-footer" }, [
+      el("span", { class: "af-featured-name" }, [document.createTextNode(results.principal.name)]),
+      el("span", { class: "af-featured-score" }, [document.createTextNode(results.principal.score + " points")])
+    ]));
+
+    screen.appendChild(featured);
+
+    // ---------- Les 7 autres archétypes, plus discrets ----------
+
+    var othersWrap = el("div", { class: "af-others" });
+    othersWrap.appendChild(el("div", { class: "af-others-label" }, [document.createTextNode("Les autres archétypes, du plus au moins présent chez vous")]));
+
+    var list = el("div", { class: "af-others-list" });
+    results.ranking.slice(1).forEach(function(item, index){
+      list.appendChild(el("div", { class: "af-others-item" }, [
+        el("span", { class: "af-others-rank" }, [document.createTextNode("#" + (index + 2))]),
+        el("span", { class: "af-others-name" }, [document.createTextNode(item.name)]),
+        el("span", { class: "af-others-score" }, [document.createTextNode(String(item.score))])
+      ]));
+    });
+    othersWrap.appendChild(list);
+    screen.appendChild(othersWrap);
+
+    main.appendChild(screen);
+  }
+
+  // ============================================================
+  // ROUTER
+  // ============================================================
+
+  function render(){
+    updateProgressBar();
+    if (state.screen === "capture") renderCapture();
+    else if (state.screen === "quiz") renderQuiz();
+    else if (state.screen === "results") renderResults();
+
+    notifyParentResize();
+    setTimeout(notifyParentResize, 200);
+  }
+
+  window.addEventListener("resize", notifyParentResize);
+
+  render();
+
+})();
+</script>
+</body>
+</html>
