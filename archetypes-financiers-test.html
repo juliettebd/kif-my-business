@@ -549,6 +549,45 @@
     flex-shrink:0;
   }
 
+  .af-others-thumb-link{
+    position:relative;
+    display:block;
+    flex-shrink:0;
+    width:64px;
+    height:36px;
+    border-radius:5px;
+    overflow:hidden;
+    text-decoration:none;
+    background:var(--af-navy);
+  }
+
+  .af-others-thumb{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    opacity:0.9;
+    transition:opacity 0.15s ease;
+  }
+
+  .af-others-thumb-link:hover .af-others-thumb{
+    opacity:1;
+  }
+
+  .af-others-thumb-play{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:rgba(18,56,89,0.78);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
   .af-others-name{
     flex:1;
     font-size:0.92rem;
@@ -1191,11 +1230,28 @@
 
     var list = el("div", { class: "af-others-list" });
     results.ranking.slice(1).forEach(function(item, index){
-      list.appendChild(el("div", { class: "af-others-item" }, [
-        el("span", { class: "af-others-rank" }, [document.createTextNode("#" + (index + 2))]),
-        el("span", { class: "af-others-name" }, [document.createTextNode(item.name)]),
-        el("span", { class: "af-others-score" }, [document.createTextNode(String(item.score))])
-      ]));
+      var itemChildren = [
+        el("span", { class: "af-others-rank" }, [document.createTextNode("#" + (index + 2))])
+      ];
+
+      var otherVideoId = ARCHETYPE_VIDEOS[item.name];
+      if (otherVideoId){
+        var otherThumbUrl = "https://img.youtube.com/vi/" + otherVideoId + "/hqdefault.jpg";
+        var otherLink = el("a", {
+          class: "af-others-thumb-link",
+          href: "https://youtu.be/" + otherVideoId,
+          target: "_blank",
+          rel: "noopener"
+        });
+        otherLink.appendChild(el("img", { class: "af-others-thumb", src: otherThumbUrl, alt: "Découvrir l'archétype " + item.name }));
+        otherLink.appendChild(el("span", { class: "af-others-thumb-play", html: '<svg width="9" height="9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7L8 5z" fill="#FFFFFF"/></svg>' }));
+        itemChildren.push(otherLink);
+      }
+
+      itemChildren.push(el("span", { class: "af-others-name" }, [document.createTextNode(item.name)]));
+      itemChildren.push(el("span", { class: "af-others-score" }, [document.createTextNode(String(item.score))]));
+
+      list.appendChild(el("div", { class: "af-others-item" }, itemChildren));
     });
     othersWrap.appendChild(list);
     screen.appendChild(othersWrap);
