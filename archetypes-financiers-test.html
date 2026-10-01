@@ -626,33 +626,16 @@
 <script>
 (function(){
 
-  // Empêche le navigateur de restaurer automatiquement la position
-  // de scroll d'un chargement précédent de cette même URL.
   if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
   }
   window.scrollTo(0, 0);
 
-  // ============================================================
-  // CONFIGURATION
-  // ============================================================
-
   var TEST_VERSION = "2026.1";
 
-  // À compléter une fois l'Apps Script des Archétypes déployé (URL du Web App).
-  // Tant que ce champ est vide, la page calcule et journalise le payload
-  // dans la console au lieu d'appeler le serveur.
   var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymhMAwJzdjz0cZ5anwaQms_EjSb3exmf32dVK3M4F7KumsyBspFjTOFPB3giv055hG/exec";
 
   var QUESTIONS_PER_PAGE = 8;
-
-  // ============================================================
-  // LES 64 AFFIRMATIONS — source : Archétypes_Financiers_questionnaire.xlsx
-  // Ne pas reformuler le texte, ne pas modifier les ID.
-  // Noms d'archétypes au féminin (orthographe officielle Chenille Papillon) :
-  // Accumulatrice, Alchimiste, Célébrité, Connectrice, Dirigeante,
-  // Nourricière, Rebelle, Romantique.
-  // ============================================================
 
   var QUESTIONS = [
     { id:1, cat:"Nourricière", text:"Je suis une personne généreuse, je donne ou je prête souvent de l'argent." },
@@ -730,10 +713,6 @@
     5: "Tout à fait d'accord"
   };
 
-  // ============================================================
-  // VIDÉOS PAR ARCHÉTYPE — YouTube ID uniquement
-  // ============================================================
-
   var ARCHETYPE_VIDEOS = {
     "Accumulatrice": "UGmxNq2SAss",
     "Alchimiste": "jtbC3xnNavU",
@@ -745,14 +724,10 @@
     "Romantique": "5wF5HqbTitA"
   };
 
-  // ============================================================
-  // ÉTAT
-  // ============================================================
-
   var state = {
-    screen: "capture",       // capture | quiz | results
+    screen: "capture",
     page: 0,
-    answers: {},             // { questionId: value }
+    answers: {},
     participant: { prenom:"", email:"", pays:"" },
     order: shuffle(QUESTIONS.slice()),
     results: null,
@@ -762,13 +737,6 @@
 
   var pages = chunk(state.order, QUESTIONS_PER_PAGE);
   var totalPages = pages.length;
-
-  // ============================================================
-  // MODE DEBUG — usage interne uniquement. ?debug=results affiche
-  // directement l'écran de résultats avec des données fictives,
-  // sans passer par la capture ni les 64 questions, et SANS AUCUN
-  // appel réseau.
-  // ============================================================
 
   var urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("debug") === "results"){
@@ -793,10 +761,6 @@
     };
     state.screen = "results";
   }
-
-  // ============================================================
-  // UTILITAIRES
-  // ============================================================
 
   function scrollToTopEverywhere(){
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -853,10 +817,6 @@
     return node;
   }
 
-  // ============================================================
-  // PROGRESSION (header)
-  // ============================================================
-
   function updateProgressBar(){
     var progressWrap = document.getElementById("af-progress");
     var fill = document.getElementById("af-progress-fill");
@@ -872,10 +832,6 @@
     fill.style.width = pct + "%";
     count.textContent = answered + " / " + QUESTIONS.length + " réponses";
   }
-
-  // ============================================================
-  // ÉCRAN 1 — CAPTURE
-  // ============================================================
 
   function renderCapture(){
     var main = document.getElementById("af-main");
@@ -980,10 +936,6 @@
     field.error.textContent = "";
   }
 
-  // ============================================================
-  // ÉCRAN 2 — QUIZ
-  // ============================================================
-
   function renderQuiz(){
     var main = document.getElementById("af-main");
     main.innerHTML = "";
@@ -1075,10 +1027,6 @@
     main.appendChild(screen);
   }
 
-  // ============================================================
-  // SCORING
-  // ============================================================
-
   function computeResults(){
     var scores = {
       "Accumulatrice": 0, "Alchimiste": 0, "Célébrité": 0, "Connectrice": 0,
@@ -1104,10 +1052,6 @@
     };
   }
 
-  // ============================================================
-  // SOUMISSION
-  // ============================================================
-
   function submitTest(){
     if (state.submitting) return;
     state.submitting = true;
@@ -1115,19 +1059,14 @@
     var results = computeResults();
     state.results = results;
 
-    // Les résultats calculés sont affichés tout de suite : l'envoi
-    // au serveur se fait en parallèle et ne conditionne jamais leur
-    // affichage.
+    // MODIFICATION 1 : on passe à l'écran résultats et on laisse
+    // renderResults() déclencher le scroll après construction du DOM.
     state.screen = "results";
     render();
-    scrollToTopEverywhere();
-
     sendResultsToBackend(results);
   }
 
   function sendResultsToBackend(results){
-    // Volontairement minimal : ni les 64 réponses individuelles ni
-    // les affirmations ne sont transmises au backend (RGPD).
     var payload = {
       testVersion: TEST_VERSION,
       participant: state.participant,
@@ -1172,10 +1111,6 @@
     statusEl.textContent = text;
   }
 
-  // ============================================================
-  // ÉCRAN 3 — RÉSULTATS
-  // ============================================================
-
   function renderResults(){
     var main = document.getElementById("af-main");
     main.innerHTML = "";
@@ -1200,8 +1135,6 @@
         ]);
     screen.appendChild(statusEl);
 
-    // ---------- Vidéo de l'archétype principal ----------
-
     var featured = el("div", { class: "af-featured" });
     featured.appendChild(el("div", { class: "af-featured-label" }, [document.createTextNode("Votre archétype principal")]));
 
@@ -1222,8 +1155,6 @@
     ]));
 
     screen.appendChild(featured);
-
-    // ---------- Les 7 autres archétypes, plus discrets ----------
 
     var othersWrap = el("div", { class: "af-others" });
     othersWrap.appendChild(el("div", { class: "af-others-label" }, [document.createTextNode("Les autres archétypes, du plus au moins présent chez vous")]));
@@ -1257,11 +1188,10 @@
     screen.appendChild(othersWrap);
 
     main.appendChild(screen);
-  }
 
-  // ============================================================
-  // ROUTER
-  // ============================================================
+    // MODIFICATION 2 : scroll après construction complète du DOM
+    setTimeout(function(){ scrollToTopEverywhere(); }, 50);
+  }
 
   function render(){
     updateProgressBar();
